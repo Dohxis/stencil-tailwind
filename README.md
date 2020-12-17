@@ -1,7 +1,25 @@
 # stencil-tailwind
 
 This package is used in order to integrate with [tailwindcss](https://tailwindcss.com/docs/installation/). It provides
-simple functionality for supporting a [utility-first](https://tailwindcss.com/docs/utility-first) approach within the Shadow DOM.
+simple functionality for supporting a [utility-first](https://tailwindcss.com/docs/utility-first) workflow within the Shadow DOM.
+
+Note, this plugin specificially adds support for _inline utilities_ (idiomatic Tailwind). If you find that this is not a
+requirement for your project you can opt to include Tailwind via [`@stencil/postcss`](https://github.com/ionic-team/stencil-postcss). This will allow you to use the
+[`@apply`](https://tailwindcss.com/docs/functions-and-directives/#apply) directive and [`theme()`](https://tailwindcss.com/docs/functions-and-directives/#theme) function within your component's stylesheet. You can get started with the following configuration:
+
+```ts
+import { Config } from '@stencil/core'
+import postcss from '@stencil/postcss'
+import tailwind from 'tailwindcss'
+
+export const config: Config = {
+  plugins: [
+    postcss({
+      plugins: [ tailwind() ]
+    })
+  ]
+}
+```
 
 ## Installation
 
@@ -21,6 +39,16 @@ export const config: Config = {
   plugins: [
     tailwind()
   ]
+}
+```
+
+Note, hot module reloading (`hmr`) is not yet supported. For local development, you'll need to update `reloadStratgy` to use the `pageReload` option:
+
+```ts
+export const config: Config = {
+  devServer: {
+    reloadStrategy: 'pageReload'
+  }
 }
 ```
 
@@ -138,6 +166,6 @@ export const config: Config = {
 }
 ```
 
-* `tailwind`: **(optional)** your own configuration file and version of TailwindCSS to be used. 
+* `tailwind`: **(optional)** your own configuration file and version of TailwindCSS to be used.
 * `inputFile`: **(optional)** a stylesheet filepath to be used in place of the default.
 * `includeTailwindCss`: **(optional)** include global `tailwind.css` in the bundle (default: `true`)
